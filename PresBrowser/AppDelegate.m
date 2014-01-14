@@ -187,6 +187,9 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
 	NSLog(@"1 Did fail");
+
+    if (error.code == NSURLErrorCancelled) return;
+    
 	[[[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] show];
 }
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
