@@ -12,6 +12,7 @@
 
 @synthesize secondWindow;
 @synthesize webViewArea;
+@synthesize renderSize;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -34,6 +35,7 @@
     //save the area the webview defaults to so we can move and resize it multiple times
     CGSize size = self.window.frame.size;
     webViewArea = CGRectMake(0, 70, size.width, size.height-70);
+    renderSize = CGSizeMake(webViewArea.size.width*2, webViewArea.size.height*2);
 	mainWebView = [[UIWebView alloc] initWithFrame:webViewArea];
     mainWebView.scalesPageToFit = YES;
     mainWebView.autoresizesSubviews = YES;
@@ -95,6 +97,9 @@
 		imageView = [[UIImageView alloc] initWithFrame:windowBounds];
 	}
 	[window addSubview:imageView];
+    
+    //save size of final image for scaling/viewport purposes
+    renderSize = windowBounds.size;
 	
     // set webview's frame
     CGRect frame = mainWebView.frame;
@@ -138,34 +143,15 @@
 }
 
 - (void)rescaleWebViewContent{
-    int width = (int)mainWebView.frame.size.width;
+    int width = renderSize.width;
+    float scale = mainWebView.frame.size.width / renderSize.width;
     
-    //worth a shot, thanks stackoverflow
-    [mainWebView stringByEvaluatingJavaScriptFromString:
-    [NSString stringWithFormat:@"var result = '';"
-     "var viewport = null;"
-     "var content = null;"
-     "var document_head = document.getElementsByTagName( 'head' )[0];"
-     "var child = document_head.firstChild;"
-     "while ( child )"
-     "{"
-     " if ( null == viewport && child.nodeType == 1 && child.nodeName == 'META' && child.getAttribute( 'name' ) == 'viewport' )"
-     "   {"
-     "     viewport = child;"
-     "     viewport.setAttribute( 'content' , 'width=%d;initial-scale=1.0' );"
-     "     result = 'fixed meta tag';"
-     " }"
-     " child = child.nextSibling;"
-     "}"
-     "if (null == viewport)"
-     "{"
-     " var meta = document.createElement( 'meta' );"
-     " meta.setAttribute( 'name' , 'viewport' );"
-     " meta.setAttribute( 'content' , 'width=%d;initial-scale=1.0' );"
-     " document_head.appendChild( meta );"
-     " result = 'added meta tag';"
-     "}", width, width]
-    ];
+    // mucking with the meta is worth a shot, thanks stackoverflow
+    // make the viewport the size of the external display and then scale.
+    // that way the site lays out as it would if natively rendered on the external
+    [mainWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.querySelector('meta[name=viewport]')"
+                            ".setAttribute('content', 'width=%d, initial-scale=%f', false); ",
+                           width, scale]];
 }
 
 - (void)onTick {

@@ -18,6 +18,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIWindow *secondWindow;
 @property (nonatomic) CGRect webViewArea;
+@property (nonatomic) CGSize renderSize;
 
 - (void)handleScreenDidConnectNotification:(NSNotification*)aNotification;
 - (void)handleScreenDidDisconnectNotification:(NSNotification*)aNotification;
