@@ -11,6 +11,7 @@
 @implementation AppDelegate
 
 @synthesize secondWindow;
+@synthesize webViewArea;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -29,8 +30,15 @@
 	
 	// Use this to set focus on the input
 //	[input becomeFirstResponder];
-	
-	mainWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 70, 300, 300)];
+    
+    //save the area the webview defaults to so we can move and resize it multiple times
+    CGSize size = self.window.frame.size;
+    webViewArea = CGRectMake(0, 70, size.width, size.height-70);
+	mainWebView = [[UIWebView alloc] initWithFrame:webViewArea];
+    mainWebView.scalesPageToFit = YES;
+    mainWebView.contentMode = UIViewContentModeScaleToFill;
+    mainWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    mainWebView.autoresizesSubviews = YES;
 	[self.window addSubview:mainWebView];
 	
 	// Without this line, olark requests kill the airplay
@@ -71,16 +79,13 @@
 	if (self.secondWindow) return;
 	
 	// These are the bounds of the external screen
-	CGRect screenBounds = screen.bounds;
+	CGRect screenBounds = screen.applicationFrame;
 	
-	screen.overscanCompensation = UIScreenOverscanCompensationScale;
-	
-	UIWindow *window = [[UIWindow alloc] init];
+	screen.overscanCompensation = UIScreenOverscanCompensationInsetApplicationFrame;
 	// ROTATE the window
 	// This code is wonky and should be redone
-	CGRect windowBounds = CGRectMake(0, 0, screenBounds.size.height, screenBounds.size.width);
-	
-	window.frame = windowBounds;
+	CGRect windowBounds = CGRectMake(screenBounds.origin.x, screenBounds.origin.y, screenBounds.size.height, screenBounds.size.width);
+    UIWindow *window = [[UIWindow alloc] initWithFrame:windowBounds];
 	window.center = CGPointMake(screenBounds.origin.x + screenBounds.size.width/2, screenBounds.origin.y + screenBounds.size.height/2);
 	window.transform = CGAffineTransformRotate(window.transform, M_PI_2);
 	
@@ -93,22 +98,17 @@
 	}
 	[window addSubview:imageView];
 	
-	// Update the web view we present to the user to have
-	// the same aspect ratio as the external screen.
-	// TODO: This code doesn't work properly
-	
-	float scale = 1.0f;
-	if (windowBounds.size.width > windowBounds.size.height) {
-		scale = self.window.bounds.size.width / windowBounds.size.width;
-	} else {
-		scale = self.window.bounds.size.height / windowBounds.size.height;
-	}
-	
-	CGRect frame = mainWebView.frame;
-	frame.size.width = windowBounds.size.width * scale - 10;
-	frame.size.height = windowBounds.size.height * scale - 10;
-	mainWebView.frame = frame;
-	
+    CGRect frame = mainWebView.frame;
+    CGSize augmentedFrameSize = [self calculateScaleOf:windowBounds.size withMax:webViewArea.size];
+    
+    // resize view
+    frame.size = augmentedFrameSize;
+    [mainWebView setBounds:frame];
+    
+    // center it in parent
+    frame.origin = [self center:augmentedFrameSize in:webViewArea];
+    [mainWebView setFrame: frame];
+    
 	// Finish it
 	
 	window.screen = screen;
@@ -116,6 +116,36 @@
 	window.hidden = NO;
 	
 	self.secondWindow = window;
+}
+
+- (CGSize) calculateScaleOf: (CGSize)other withMax: (CGSize) maxSize{
+    float ratio = other.width / other.height;
+    
+    float attemptedWidth = ratio * maxSize.height;
+    float attemptedHeight = maxSize.width / ratio;
+    
+    if(attemptedWidth > maxSize.width){
+        attemptedWidth = maxSize.width;
+        attemptedHeight = attemptedWidth / ratio;
+    }
+    
+    if(attemptedHeight > maxSize.height){
+        attemptedHeight = maxSize.height;
+        attemptedWidth = ratio * attemptedHeight;
+    }
+
+    return CGSizeMake(attemptedWidth, attemptedHeight);
+}
+
+- (CGPoint) center: (CGSize) newSize in: (CGRect) space{
+    float x = (space.size.width - newSize.width) / 2 + space.origin.x;
+    float y = (space.size.height - newSize.height) / 2 + space.origin.y;
+    return CGPointMake(x,y);
+}
+
+- (void)rescaleWebViewContent{
+    [mainWebView setNeedsDisplay];
+    [mainWebView setNeedsLayout];
 }
 
 - (void)onTick {
@@ -129,6 +159,14 @@
 	// Note: the last param (scale) can be set to a high value (ie 2.0) to make the image sharper
 	// or a low one (ie 0.5) to make the image blurrier.
 	UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
+    
+    // the underlying layer is the size of the initial frame
+    // so we need to displace the graphics context
+    // to the same origin
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextTranslateCTM(ctx, -1 * webViewArea.origin.x, -1 * webViewArea.origin.y);
+    
+    //take the screenshot
 	[view.layer renderInContext:UIGraphicsGetCurrentContext()];
 	
 	UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
