@@ -98,14 +98,10 @@
 	}
 	[window addSubview:imageView];
 	
+    // set webview's frame
     CGRect frame = mainWebView.frame;
     CGSize augmentedFrameSize = [self calculateScaleOf:windowBounds.size withMax:webViewArea.size];
-    
-    // resize view
     frame.size = augmentedFrameSize;
-    [mainWebView setBounds:frame];
-    
-    // center it in parent
     frame.origin = [self center:augmentedFrameSize in:webViewArea];
     [mainWebView setFrame: frame];
     
@@ -159,12 +155,6 @@
 	// Note: the last param (scale) can be set to a high value (ie 2.0) to make the image sharper
 	// or a low one (ie 0.5) to make the image blurrier.
 	UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
-    
-    // the underlying layer is the size of the initial frame
-    // so we need to displace the graphics context
-    // to the same origin
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextTranslateCTM(ctx, -1 * webViewArea.origin.x, -1 * webViewArea.origin.y);
     
     //take the screenshot
 	[view.layer renderInContext:UIGraphicsGetCurrentContext()];
