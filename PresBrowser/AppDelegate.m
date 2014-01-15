@@ -36,8 +36,6 @@
     webViewArea = CGRectMake(0, 70, size.width, size.height-70);
 	mainWebView = [[UIWebView alloc] initWithFrame:webViewArea];
     mainWebView.scalesPageToFit = YES;
-    mainWebView.contentMode = UIViewContentModeScaleToFill;
-    mainWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     mainWebView.autoresizesSubviews = YES;
 	[self.window addSubview:mainWebView];
 	
@@ -110,8 +108,8 @@
 	window.screen = screen;
 	window.backgroundColor = [UIColor orangeColor];
 	window.hidden = NO;
-	
 	self.secondWindow = window;
+    [self rescaleWebViewContent];
 }
 
 - (CGSize) calculateScaleOf: (CGSize)other withMax: (CGSize) maxSize{
@@ -140,8 +138,34 @@
 }
 
 - (void)rescaleWebViewContent{
-    [mainWebView setNeedsDisplay];
-    [mainWebView setNeedsLayout];
+    int width = (int)mainWebView.frame.size.width;
+    
+    //worth a shot, thanks stackoverflow
+    [mainWebView stringByEvaluatingJavaScriptFromString:
+    [NSString stringWithFormat:@"var result = '';"
+     "var viewport = null;"
+     "var content = null;"
+     "var document_head = document.getElementsByTagName( 'head' )[0];"
+     "var child = document_head.firstChild;"
+     "while ( child )"
+     "{"
+     " if ( null == viewport && child.nodeType == 1 && child.nodeName == 'META' && child.getAttribute( 'name' ) == 'viewport' )"
+     "   {"
+     "     viewport = child;"
+     "     viewport.setAttribute( 'content' , 'width=%d;initial-scale=1.0' );"
+     "     result = 'fixed meta tag';"
+     " }"
+     " child = child.nextSibling;"
+     "}"
+     "if (null == viewport)"
+     "{"
+     " var meta = document.createElement( 'meta' );"
+     " meta.setAttribute( 'name' , 'viewport' );"
+     " meta.setAttribute( 'content' , 'width=%d;initial-scale=1.0' );"
+     " document_head.appendChild( meta );"
+     " result = 'added meta tag';"
+     "}", width, width]
+    ];
 }
 
 - (void)onTick {
@@ -149,7 +173,6 @@
 	
 	// Grab the web view and render its contents
 	// to an image.
-	
 	UIView *view = mainWebView;
 	
 	// Note: the last param (scale) can be set to a high value (ie 2.0) to make the image sharper
@@ -227,7 +250,7 @@
 	return YES;
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-//	NSLog(@"3 Did finish load");
+    [self rescaleWebViewContent];
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView {
 //	NSLog(@"4 Did start load");
