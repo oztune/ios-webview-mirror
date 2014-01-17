@@ -7,19 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PresWebview.h"
+#import "ExternalWindow.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UIWebViewDelegate, UITextFieldDelegate>
 {
-	UIWindow *secondWindow;
-	UIWebView *mainWebView;
+    
+	ExternalWindow *secondWindow;
+    PresWebView *mainWebView;
 	UIImageView *imageView;
+    BOOL onExternal;
 }
-
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) UIWindow *secondWindow;
-
-- (void)handleScreenDidConnectNotification:(NSNotification*)aNotification;
-- (void)handleScreenDidDisconnectNotification:(NSNotification*)aNotification;
-- (void) onScreen: (UIScreen *)screen;
-
 @end

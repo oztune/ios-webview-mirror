@@ -17,6 +17,8 @@
 		2DBB4E5F172381E300149D44 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DBB4E5E172381E300149D44 /* Default.png */; };
 		2DBB4E61172381E300149D44 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DBB4E60172381E300149D44 /* Default@2x.png */; };
 		2DBB4E63172381E300149D44 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DBB4E62172381E300149D44 /* Default-568h@2x.png */; };
+		FA009A271887636400E115A0 /* ExternalWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FA009A261887636400E115A0 /* ExternalWindow.m */; };
+		FA009A2A1887674300E115A0 /* PresWebview.m in Sources */ = {isa = PBXBuildFile; fileRef = FA009A291887674300E115A0 /* PresWebview.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,10 @@
 		2DBB4E5E172381E300149D44 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		2DBB4E60172381E300149D44 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		2DBB4E62172381E300149D44 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		FA009A251887636400E115A0 /* ExternalWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExternalWindow.h; sourceTree = "<group>"; };
+		FA009A261887636400E115A0 /* ExternalWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalWindow.m; sourceTree = "<group>"; };
+		FA009A281887674300E115A0 /* PresWebview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresWebview.h; sourceTree = "<group>"; };
+		FA009A291887674300E115A0 /* PresWebview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresWebview.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +90,10 @@
 				2DBB4E5B172381E300149D44 /* AppDelegate.h */,
 				2DBB4E5C172381E300149D44 /* AppDelegate.m */,
 				2DBB4E53172381E200149D44 /* Supporting Files */,
+				FA009A251887636400E115A0 /* ExternalWindow.h */,
+				FA009A261887636400E115A0 /* ExternalWindow.m */,
+				FA009A281887674300E115A0 /* PresWebview.h */,
+				FA009A291887674300E115A0 /* PresWebview.m */,
 			);
 			path = PresBrowser;
 			sourceTree = "<group>";
@@ -168,8 +178,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA009A2A1887674300E115A0 /* PresWebview.m in Sources */,
 				2DBB4E59172381E300149D44 /* main.m in Sources */,
 				2DBB4E5D172381E300149D44 /* AppDelegate.m in Sources */,
+				FA009A271887636400E115A0 /* ExternalWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
