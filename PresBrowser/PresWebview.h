@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "ExternalWindow.h"
 
-@interface PresWebView : UIWebView
+@interface PresWebView : UIWebView <UIWebViewDelegate>
 
 typedef enum {
     PresWebViewAspectScaled,
     PresWebViewAspectNative,
 }PresWebViewAspectType;
 
-@property (nonatomic) CGRect firstScreenFrame;
+@property (nonatomic) CGRect containerFrame;
 @property (nonatomic) CGSize renderSize;
 @property (nonatomic) PresWebViewAspectType currentAspect;
 @property (strong, nonatomic) ExternalWindow* linkedWindow;
@@ -27,4 +27,5 @@ typedef enum {
 - (void) assumeAspect: (PresWebViewAspectType) aspect;
 - (void) linkWindow:(ExternalWindow*) window;
 - (void) unlinkWindow;
+- (void) setup;
 @end

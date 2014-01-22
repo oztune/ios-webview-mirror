@@ -45,6 +45,7 @@
     
     secondWindow = [[ExternalWindow alloc] initWithFrame:externalFrame];
     [secondWindow checkForInitialScreen];
+    [mainWebView setup];
     [mainWebView linkWindow: secondWindow];
     [mainWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fireball.lga.appfigures.com/rrd/"]]];
     
@@ -126,6 +127,14 @@
     [super viewDidLoad];
     [self setup];
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    [mainWebView relayout];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [mainWebView relayout];
 }
 
 - (void)didReceiveMemoryWarning

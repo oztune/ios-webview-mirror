@@ -51,23 +51,34 @@
                         <action selector="swap" destination="-1" eventType="touchUpInside" id="aSi-NJ-MH6"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XkF-XG-orT">
-                    <rect key="frame" x="0.0" y="58" width="327" height="510"/>
+                <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dW0-Ij-Xl2">
+                    <rect key="frame" x="0.0" y="58" width="320" height="510"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
-                <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKB-Ja-lrI" customClass="PresWebView">
-                    <rect key="frame" x="0.0" y="58" width="327" height="510"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                </webView>
+                    <subviews>
+                        <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKB-Ja-lrI" customClass="PresWebView">
+                            <rect key="frame" x="168" y="71" width="97" height="99"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </webView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XkF-XG-orT">
+                            <rect key="frame" x="38" y="71" width="100" height="99"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="dW0-Ij-Xl2" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="4Vq-nW-G02"/>
+                <constraint firstAttribute="trailing" secondItem="dW0-Ij-Xl2" secondAttribute="trailing" id="4vt-OQ-1td"/>
                 <constraint firstItem="84N-DK-Ajg" firstAttribute="leading" secondItem="bcI-SA-9Xj" secondAttribute="trailing" constant="20" id="Rcl-ap-KxN"/>
                 <constraint firstItem="mma-gv-UMH" firstAttribute="top" secondItem="bcI-SA-9Xj" secondAttribute="top" id="ZC6-Br-B9X"/>
                 <constraint firstAttribute="trailing" secondItem="84N-DK-Ajg" secondAttribute="trailing" constant="20" id="a2i-jS-joc"/>
                 <constraint firstItem="mma-gv-UMH" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" symbolic="YES" id="h5h-kl-5bz"/>
+                <constraint firstItem="dW0-Ij-Xl2" firstAttribute="top" secondItem="84N-DK-Ajg" secondAttribute="bottom" constant="8" id="kzm-si-huD"/>
                 <constraint firstItem="mma-gv-UMH" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="4" id="nQV-hB-x3c"/>
+                <constraint firstAttribute="bottom" secondItem="dW0-Ij-Xl2" secondAttribute="bottom" id="uC0-aq-qtV"/>
                 <constraint firstItem="bcI-SA-9Xj" firstAttribute="leading" secondItem="mma-gv-UMH" secondAttribute="trailing" constant="16" id="wX2-XT-QHe"/>
                 <constraint firstItem="mma-gv-UMH" firstAttribute="top" secondItem="84N-DK-Ajg" secondAttribute="top" id="x8T-ww-tpa"/>
             </constraints>
