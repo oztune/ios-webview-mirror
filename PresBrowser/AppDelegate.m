@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "PresWebview.h"
+#import "RootViewController.h"
 
 @implementation AppDelegate
 
@@ -16,120 +17,10 @@
 {
 	
     self.window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+    NSString *xib = @"RootViewController";
+    self.window.rootViewController = [[RootViewController alloc]initWithNibName: xib bundle:nil];
     [self.window makeKeyAndVisible];
-	
-	// Set up the UI
-    onExternal = false;
-	UITextField *input = [[UITextField alloc] initWithFrame:CGRectMake(10,30, 300, 30)];
-	input.backgroundColor = [UIColor whiteColor];
-	input.autocapitalizationType = UITextAutocapitalizationTypeNone;
-	input.keyboardType = UIKeyboardTypeURL;
-	input.delegate = self;
-	[self.window addSubview:input];
-    
-    UIButton *rescale = [UIButton buttonWithType:UIButtonTypeSystem];
-    rescale.frame = CGRectMake(350, 30, 100, 30);
-    [rescale addTarget:mainWebView action:@selector(rescaleWebViewContent) forControlEvents:UIControlEventTouchUpInside];
-    rescale.backgroundColor = [UIColor whiteColor];
-    rescale.titleLabel.textColor = [UIColor blackColor];
-    [rescale setTitle:@"Refresh" forState:UIControlStateNormal];
-    [self.window addSubview:rescale];
-    
-    UIButton *swap = [UIButton buttonWithType:UIButtonTypeSystem];
-    swap.frame = CGRectMake(500, 30, 100, 30);
-    [swap addTarget:self action:@selector(swap) forControlEvents:UIControlEventTouchUpInside];
-    swap.backgroundColor = [UIColor whiteColor];
-    swap.titleLabel.textColor = [UIColor blackColor];
-    [swap setTitle:@"Swap" forState:UIControlStateNormal];
-    [self.window addSubview:swap];
-    
-    //frame that we'll be using for the
-    CGSize size = self.window.frame.size;
-    CGRect frame = CGRectMake(0, 70, size.width, size.height-70);
-    
-    imageView = [[UIImageView alloc] initWithFrame:frame];
-    imageView.hidden = YES;
-    imageView.alpha = 0.5;
-    imageView.backgroundColor = [UIColor purpleColor];
-    [self.window addSubview:imageView];
-    
-	mainWebView = [[PresWebView alloc] initWithFrame:frame];
-    [mainWebView assumeAspect:PresWebViewAspectScaled];
-	[self.window addSubview:mainWebView];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayChange)  name:@"externalUpdate" object:nil];
-    
-    secondWindow = [[ExternalWindow alloc] initWithFrame:frame];
-    [secondWindow checkForInitialScreen];
-    [mainWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fireball.lga.appfigures.com/rrd/"]]];
-		
-	// Rendering timer
-	[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(onTick) userInfo:nil repeats:YES];
-	
-    return YES;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField*)textField
-{
-    [textField resignFirstResponder];
-    NSString *text = textField.text;
-    if(![text hasPrefix: @"http"]){
-        text = [NSString stringWithFormat:@"http://%@", text];
-    }
-	[mainWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:text]]];
-	
-    return NO;
-}
-
-- (void) onTick{
-    if(!secondWindow.isActive){
-        if(onExternal){
-            [self setWebOnFirstScreen];
-        }
-        return;
-    }
-    UIImage *image = [mainWebView screenshot];
-    imageView.image = image;
-    secondWindow.imageView.image = [mainWebView screenshot];
-}
-
-- (BOOL) swap{
-    if(!secondWindow.isActive){
-        return false;
-    }
-    if(onExternal){
-        [self setWebOnFirstScreen];
-    }else{
-        [self setWebOnSecondScreen];
-    }
-    return true;
-}
-
-- (void) handleDisplayChange{
-    if(secondWindow.isActive){
-        [mainWebView linkWindow: secondWindow];
-    }else{
-        [mainWebView unlinkWindow];
-    }
-}
-
-- (void) setWebOnFirstScreen{
-    [mainWebView removeFromSuperview];
-    [mainWebView assumeAspect:PresWebViewAspectScaled];
-    imageView.hidden = YES;
-    secondWindow.imageView.hidden = NO;
-    [window addSubview:mainWebView];
-    onExternal = false;
-}
-
-- (void) setWebOnSecondScreen{
-    [mainWebView removeFromSuperview];
-    imageView.frame = mainWebView.frame;
-    [mainWebView assumeAspect:PresWebViewAspectNative];
-    imageView.hidden = NO;
-    secondWindow.imageView.hidden = YES;
-    [secondWindow addSubview:mainWebView];
-    onExternal = true;
+	return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

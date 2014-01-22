@@ -7,16 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PresWebview.h"
-#import "ExternalWindow.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UIWebViewDelegate, UITextFieldDelegate>
-{
-    
-	ExternalWindow *secondWindow;
-    PresWebView *mainWebView;
-	UIImageView *imageView;
-    BOOL onExternal;
-}
 @property (strong, nonatomic) UIWindow *window;
 @end
