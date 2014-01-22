@@ -30,30 +30,6 @@
     return self;
 }
 
-- (void)setup{
-    onExternal = false;
-    
-    imageView.hidden = YES;
-    imageView.alpha = 0.5;
-    imageView.backgroundColor = [UIColor purpleColor];
-
-    [mainWebView assumeAspect:PresWebViewAspectScaled];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayChange)  name:@"externalUpdate" object:nil];
-    
-    CGRect externalFrame = CGRectMake(0, 0, 1280, 768);
-    
-    secondWindow = [[ExternalWindow alloc] initWithFrame:externalFrame];
-    [secondWindow checkForInitialScreen];
-    [mainWebView setup];
-    [mainWebView linkWindow: secondWindow];
-    [mainWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fireball.lga.appfigures.com/rrd/"]]];
-    
-	// Rendering timer
-	[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(onTick) userInfo:nil repeats:YES];
-	
-}
-
 - (BOOL)textFieldShouldReturn:(UITextField*)textField
 {
     [textField resignFirstResponder];
@@ -91,6 +67,7 @@
 }
 
 - (IBAction) refresh{
+    [mainWebView rescaleWebViewContent];
     return;
 }
 
@@ -125,7 +102,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setup];
+    onExternal = false;
+    
+    imageView.hidden = YES;
+    imageView.alpha = 0.5;
+    imageView.backgroundColor = [UIColor purpleColor];
+    
+    [mainWebView assumeAspect:PresWebViewAspectScaled];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayChange)  name:@"externalUpdate" object:nil];
+    
+    CGRect externalFrame = CGRectMake(0, 0, 1280, 768);
+    
+    secondWindow = [[ExternalWindow alloc] initWithFrame:externalFrame];
+    [secondWindow checkForInitialScreen];
+    [mainWebView linkWindow: secondWindow];
+    [mainWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://appfigures.com"]]];
+    
+	// Rendering timer
+	[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(onTick) userInfo:nil repeats:YES];
+	
     // Do any additional setup after loading the view from its nib.
 }
 

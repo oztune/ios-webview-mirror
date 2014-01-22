@@ -55,10 +55,11 @@
                     <rect key="frame" x="0.0" y="58" width="320" height="510"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKB-Ja-lrI" customClass="PresWebView">
+                        <webView contentMode="scaleToFill" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKB-Ja-lrI" customClass="PresWebView">
                             <rect key="frame" x="168" y="71" width="97" height="99"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <dataDetectorType key="dataDetectorTypes" link="YES"/>
                         </webView>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XkF-XG-orT">
                             <rect key="frame" x="38" y="71" width="100" height="99"/>

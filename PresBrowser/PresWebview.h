@@ -27,5 +27,4 @@ typedef enum {
 - (void) assumeAspect: (PresWebViewAspectType) aspect;
 - (void) linkWindow:(ExternalWindow*) window;
 - (void) unlinkWindow;
-- (void) setup;
 @end

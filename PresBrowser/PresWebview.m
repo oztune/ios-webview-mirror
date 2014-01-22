@@ -16,8 +16,20 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [self setup];
     }
     return self;
+}
+
+- (void)awakeFromNib{
+    [self setup];
+}
+
+-(void) setup{
+    self.containerFrame = self.frame;
+    self.renderSize = containerFrame.size;
+    self.linkedWindow = nil;
+    self.delegate = self;
 }
 
 - (void) assumeAspect:(PresWebViewAspectType)aspect{
@@ -71,15 +83,6 @@
     if(CGSizeEqualToSize(CGSizeZero, renderSize)){
         renderSize = containerFrame.size;
     }
-}
-
--(void) setup{
-    self.containerFrame = self.frame;
-    self.renderSize = containerFrame.size;
-    self.delegate = self;
-    self.linkedWindow = nil;
-    self.scalesPageToFit = YES;
-    self.autoresizesSubviews = YES;
 }
 
 - (void)didMoveToSuperview{
