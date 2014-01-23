@@ -16,12 +16,12 @@
 }
 
 - (IBAction) swap;
-- (IBAction) refresh;
+- (IBAction) rotate;
 
 @property (strong, nonatomic) ExternalWindow IBOutlet *secondWindow;
 @property (strong, nonatomic) PresWebView IBOutlet *mainWebView;
 @property (strong, nonatomic) UIImageView IBOutlet *imageView;
-@property (strong, nonatomic) UIButton IBOutlet *refreshButton;
+@property (strong, nonatomic) UIButton IBOutlet *rotateButton;
 @property (strong, nonatomic) UIButton  IBOutlet *swapButton;
 @property (strong, nonatomic) UITextField IBOutlet *urlField;
 

@@ -15,7 +15,7 @@
 @implementation RootViewController
 
 @synthesize urlField;
-@synthesize refreshButton;
+@synthesize rotateButton;
 @synthesize swapButton;
 @synthesize imageView;
 @synthesize mainWebView;
@@ -66,8 +66,8 @@
     return;
 }
 
-- (IBAction) refresh{
-    [mainWebView rescaleWebViewContent];
+- (IBAction) rotate{
+    [secondWindow rotate:[secondWindow successor:secondWindow.orientation] animate:YES];
     return;
 }
 
@@ -116,7 +116,6 @@
     
     secondWindow = [[ExternalWindow alloc] initWithFrame:externalFrame];
     [secondWindow checkForInitialScreen];
-    [mainWebView linkWindow: secondWindow];
     [mainWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://appfigures.com"]]];
     
 	// Rendering timer

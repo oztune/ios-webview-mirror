@@ -27,6 +27,7 @@
 
 -(void) setup{
     self.containerFrame = self.frame;
+    self.scalesPageToFit = YES;
     self.renderSize = containerFrame.size;
     self.linkedWindow = nil;
     self.delegate = self;

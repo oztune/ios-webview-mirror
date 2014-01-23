@@ -9,6 +9,7 @@
 #import "ExternalWindow.h"
 
 @implementation ExternalWindow
+
 @synthesize imageView;
 
 - (id)initWithFrame:(CGRect)frame
@@ -23,6 +24,8 @@
         [center addObserver:self selector:@selector(handleScreenDidDisconnectNotification:)
                        name:UIScreenDidDisconnectNotification object:nil];
         
+        currentOrientation = UIInterfaceOrientationLandscapeRight;
+        
         // Create an image inside the window so that we can draw
         // the web view into it.
         if (!imageView) {
@@ -35,41 +38,91 @@
     return self;
 }
 
-- (void) onScreen: (UIScreen *)screen {
-    // These are the bounds of the external screen
-	CGRect screenBounds = screen.applicationFrame;
-	
+- (void) onScreen: (UIScreen *)screen animate: (BOOL) animate{
 	screen.overscanCompensation = UIScreenOverscanCompensationInsetApplicationFrame;
-	// ROTATE the window
-	// This code is wonky and should be redone
-    CGRect windowBounds = screenBounds;
-    windowBounds.size = CGSizeMake(windowBounds.size.height, windowBounds.size.width);
-    self.frame = windowBounds;
-	self.center = CGPointMake(screenBounds.origin.x + screenBounds.size.width/2, screenBounds.origin.y + screenBounds.size.height/2);
-	self.transform = CGAffineTransformRotate(self.transform, M_PI_2);
-	
-    imageView.frame = windowBounds;
-    
-	// Finish it
+    [self rotate:currentOrientation animate:false];
+    // Finish it
 	self.isActive = YES;
 	self.screen = screen;
     self.hidden = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"externalUpdate" object:self];
+}
 
+- (void)rotate:(UIInterfaceOrientation)orientation animate:(BOOL)animate{
+    float angle = [self transformAngle:UIInterfaceOrientationLandscapeRight to:orientation];
+    CGAffineTransform trans = CGAffineTransformRotate(CGAffineTransformIdentity, angle);
+    
+    CGRect screenBounds = self.screen.applicationFrame;
+    CGRect windowBounds = screenBounds;
+    if(UIInterfaceOrientationIsPortrait(orientation)){
+        windowBounds.size = CGSizeMake(windowBounds.size.height, windowBounds.size.width);
+    }
+    
+    self.center = CGPointMake(screenBounds.origin.x + screenBounds.size.width/2, screenBounds.origin.y + screenBounds.size.height/2);
+    
+    self.frame = windowBounds;
+    imageView.frame = windowBounds;
+	self.transform = trans;
+    imageView.transform = trans;
+    currentOrientation = orientation;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"externalUpdate" object:self];
+}
+
+- (float) transformAngle: (UIInterfaceOrientation) from to: (UIInterfaceOrientation) to{
+    int diff = [self orientationOrder:to] - [self orientationOrder:from];
+    if(diff == 0){
+        return 0.0f;
+    }else if (diff > 0){
+        return diff * M_PI_2;
+    }else{
+        return (4+diff) * M_PI_2;
+    }
+}
+
+- (int) orientationOrder: (UIInterfaceOrientation) orientation{
+    switch (orientation) {
+        case UIInterfaceOrientationLandscapeRight:
+            return 0;
+        case UIInterfaceOrientationPortrait:
+            return 1;
+        case UIInterfaceOrientationLandscapeLeft:
+            return 2;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            return 3;
+    }
+    return -1;
+}
+
+- (UIInterfaceOrientation)successor: (UIInterfaceOrientation)current{
+    switch (current) {
+        case UIInterfaceOrientationLandscapeRight:
+            return UIInterfaceOrientationPortrait;
+        case UIInterfaceOrientationPortrait:
+            return UIInterfaceOrientationLandscapeLeft;
+        case UIInterfaceOrientationLandscapeLeft:
+            return UIInterfaceOrientationPortraitUpsideDown;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            return UIInterfaceOrientationLandscapeRight;
+    }
+    return UIInterfaceOrientationLandscapeRight;
+}
+
+- (UIInterfaceOrientation)orientation{
+    return currentOrientation;
 }
 
 - (void)checkForInitialScreen{
     if ([[UIScreen screens] count] > 1) {
         // Get the screen object that represents the external display.
         UIScreen *secondScreen = [[UIScreen screens] objectAtIndex:1];
-        [self onScreen:secondScreen];
+        [self onScreen:secondScreen animate: false];
     }
 }
 
 - (void)handleScreenDidConnectNotification:(NSNotification*)aNotification
 {
     UIScreen *newScreen = [aNotification object];
-	[self onScreen:newScreen];
+	[self onScreen:newScreen animate: true];
 }
 
 - (void)handleScreenDidDisconnectNotification:(NSNotification*)aNotification

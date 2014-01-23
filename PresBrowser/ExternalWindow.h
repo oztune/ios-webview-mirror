@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface ExternalWindow : UIWindow{
+    UIInterfaceOrientation currentOrientation;
 }
 @property (nonatomic) BOOL isActive;
 @property (strong, nonatomic) UIImageView* imageView;
 
+- (UIInterfaceOrientation) orientation;
+- (void) rotate: (UIInterfaceOrientation) orientation animate: (BOOL) animate;
+- (UIInterfaceOrientation) successor: (UIInterfaceOrientation) current;
 - (void)checkForInitialScreen;
 @end
