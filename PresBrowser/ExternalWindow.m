@@ -30,6 +30,7 @@
         // the web view into it.
         if (!imageView) {
             imageView = [[UIImageView alloc] initWithFrame:frame];
+            imageView.backgroundColor = [UIColor redColor];
         }
         self.backgroundColor = [UIColor orangeColor];
         self.hidden = YES;
@@ -39,11 +40,11 @@
 }
 
 - (void) onScreen: (UIScreen *)screen animate: (BOOL) animate{
-	screen.overscanCompensation = UIScreenOverscanCompensationInsetApplicationFrame;
+    self.screen = screen;
+	self.screen.overscanCompensation = UIScreenOverscanCompensationInsetApplicationFrame;
     [self rotate:currentOrientation animate:false];
     // Finish it
 	self.isActive = YES;
-	self.screen = screen;
     self.hidden = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"externalUpdate" object:self];
 }
@@ -52,24 +53,24 @@
     float angle = [self transformAngle:UIInterfaceOrientationLandscapeRight to:orientation];
     CGAffineTransform trans = CGAffineTransformRotate(CGAffineTransformIdentity, angle);
     
-    CGRect screenBounds = self.screen.applicationFrame;
+    CGRect screenBounds = self.screen.bounds;
     CGRect windowBounds = screenBounds;
     if(UIInterfaceOrientationIsPortrait(orientation)){
         windowBounds.size = CGSizeMake(windowBounds.size.height, windowBounds.size.width);
     }
     
-    self.center = CGPointMake(screenBounds.origin.x + screenBounds.size.width/2, screenBounds.origin.y + screenBounds.size.height/2);
-    
+    NSLog(@"centering at %.2f %.2f", windowBounds.size.width/2, windowBounds.size.height/2);
     self.frame = windowBounds;
+    self.center = CGPointMake(windowBounds.size.height/2, windowBounds.size.width/2);
+    self.transform = trans;
     imageView.frame = windowBounds;
-	self.transform = trans;
-    imageView.transform = trans;
+    //imageView.transform = trans;
     currentOrientation = orientation;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"externalUpdate" object:self];
 }
 
 - (float) transformAngle: (UIInterfaceOrientation) from to: (UIInterfaceOrientation) to{
-    int diff = [self orientationOrder:to] - [self orientationOrder:from];
+    float diff = (float)([self orientationOrder:to] - [self orientationOrder:from]);
     if(diff == 0){
         return 0.0f;
     }else if (diff > 0){
@@ -77,6 +78,7 @@
     }else{
         return (4+diff) * M_PI_2;
     }
+    return -1;
 }
 
 - (int) orientationOrder: (UIInterfaceOrientation) orientation{
@@ -116,6 +118,7 @@
         // Get the screen object that represents the external display.
         UIScreen *secondScreen = [[UIScreen screens] objectAtIndex:1];
         [self onScreen:secondScreen animate: false];
+        [self rotate:UIInterfaceOrientationPortrait animate:false];
     }
 }
 

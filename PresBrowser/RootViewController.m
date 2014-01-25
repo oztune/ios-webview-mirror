@@ -112,11 +112,11 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayChange)  name:@"externalUpdate" object:nil];
     
-    CGRect externalFrame = CGRectMake(0, 0, 1280, 768);
+    CGRect externalFrame = CGRectMake(0, 0, 768, 1280);
     
     secondWindow = [[ExternalWindow alloc] initWithFrame:externalFrame];
     [secondWindow checkForInitialScreen];
-    [mainWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://appfigures.com"]]];
+    [mainWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fireball.lga.appfigures.com/rrd/"]]];
     
 	// Rendering timer
 	[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(onTick) userInfo:nil repeats:YES];
