@@ -42,9 +42,6 @@
 }
 
 - (void) linkWindow:(ExternalWindow*) window{
-    if(self.linkedWindow != nil){
-        [self unlinkWindow];
-    }
     self.linkedWindow = window;
     self.renderSize = window.bounds.size;
     [self relayout];
@@ -67,10 +64,9 @@
         CGSize augmentedFrameSize = [self calculateScaleOf:self.renderSize withMax:containerFrame.size];
         frame.size = augmentedFrameSize;
         frame.origin = [self center:augmentedFrameSize in:containerFrame];
-        NSLog(@"render: %@ (%@ -> %@)", NSStringFromCGSize(renderSize), NSStringFromCGRect(self.frame), NSStringFromCGRect(frame));
-        [self setFrame: frame];
+        self.frame = frame;
     }else{
-        [self setFrame:CGRectMake(0, 0, self.renderSize.width, self.renderSize.height)];
+        self.frame = CGRectMake(0, 0, self.renderSize.width, self.renderSize.height);
     }
     [self rescaleWebViewContent];
 }
@@ -135,7 +131,11 @@
 }
 
 - (UIImage*)screenshot{
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0.0);
+    CGSize size = self.frame.size;
+    if(size.width == 0 || size.height == 0){
+        return nil;
+    }
+    UIGraphicsBeginImageContextWithOptions(size, self.opaque, 0.0);
     
     //take the screenshot
 	[self.layer renderInContext:UIGraphicsGetCurrentContext()];

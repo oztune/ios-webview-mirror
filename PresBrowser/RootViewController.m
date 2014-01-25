@@ -7,6 +7,7 @@
 //
 
 #import "RootViewController.h"
+#import <UIKit/UIKit.h>
 
 @interface RootViewController ()
 
@@ -20,12 +21,14 @@
 @synthesize imageView;
 @synthesize mainWebView;
 @synthesize secondWindow;
+@synthesize containingView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // no-op
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
+        mainWebView = [[PresWebView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     }
     return self;
 }
@@ -51,7 +54,7 @@
     }
     UIImage *image = [mainWebView screenshot];
     imageView.image = image;
-    secondWindow.imageView.image = [mainWebView screenshot];
+    secondWindow.imageView.image = image;
 }
 
 - (IBAction) swap{
@@ -80,21 +83,22 @@
 }
 
 - (void) setWebOnFirstScreen{
-    [mainWebView removeFromSuperview];
+    [self.containingView addSubview:mainWebView];
     [mainWebView assumeAspect:PresWebViewAspectScaled];
     imageView.hidden = YES;
     secondWindow.imageView.hidden = NO;
-    [self.view addSubview:mainWebView];
     onExternal = false;
 }
 
 - (void) setWebOnSecondScreen{
-    [mainWebView removeFromSuperview];
     imageView.frame = mainWebView.frame;
-    [mainWebView assumeAspect:PresWebViewAspectNative];
-    imageView.hidden = NO;
-    secondWindow.imageView.hidden = YES;
+    [self onTick];
+
     [secondWindow addSubview:mainWebView];
+    [mainWebView assumeAspect:PresWebViewAspectNative];
+
+    secondWindow.imageView.hidden = YES;
+    imageView.hidden = NO;
     onExternal = true;
 }
 
@@ -102,6 +106,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [containingView addSubview:mainWebView];
+    [containingView addSubview:imageView];
+    mainWebView.frame = containingView.bounds;
+    imageView.frame = containingView.bounds;
+    
     onExternal = false;
     
     imageView.hidden = YES;

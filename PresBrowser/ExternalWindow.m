@@ -123,7 +123,6 @@
         // Get the screen object that represents the external display.
         UIScreen *secondScreen = [[UIScreen screens] objectAtIndex:1];
         [self onScreen:secondScreen animate: false];
-        [self rotate:UIInterfaceOrientationPortrait animate:false];
     }
 }
 

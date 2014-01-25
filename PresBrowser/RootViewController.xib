@@ -7,8 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RootViewController">
             <connections>
-                <outlet property="imageView" destination="XkF-XG-orT" id="YlI-Su-WZo"/>
-                <outlet property="mainWebView" destination="tKB-Ja-lrI" id="hbd-1Y-RhX"/>
+                <outlet property="containingView" destination="dW0-Ij-Xl2" id="xfr-U4-s1b"/>
                 <outlet property="rotateButton" destination="bcI-SA-9Xj" id="ylT-NT-y5V"/>
                 <outlet property="swapButton" destination="84N-DK-Ajg" id="ln2-tM-NZK"/>
                 <outlet property="urlField" destination="mma-gv-UMH" id="zre-aI-c1z"/>
@@ -54,18 +53,6 @@
                 <view autoresizesSubviews="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dW0-Ij-Xl2">
                     <rect key="frame" x="0.0" y="58" width="320" height="510"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <webView contentMode="scaleToFill" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKB-Ja-lrI" customClass="PresWebView">
-                            <rect key="frame" x="173" y="165" width="97" height="99"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                        </webView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XkF-XG-orT">
-                            <rect key="frame" x="32" y="165" width="100" height="99"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
             </subviews>
