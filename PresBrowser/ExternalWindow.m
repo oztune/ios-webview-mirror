@@ -51,20 +51,25 @@
 
 - (void)rotate:(UIInterfaceOrientation)orientation animate:(BOOL)animate{
     float angle = [self transformAngle:UIInterfaceOrientationLandscapeRight to:orientation];
+    
     CGAffineTransform trans = CGAffineTransformRotate(CGAffineTransformIdentity, angle);
     
     CGRect screenBounds = self.screen.bounds;
     CGRect windowBounds = screenBounds;
-    if(UIInterfaceOrientationIsPortrait(orientation)){
-        windowBounds.size = CGSizeMake(windowBounds.size.height, windowBounds.size.width);
-    }
     
-    NSLog(@"centering at %.2f %.2f", windowBounds.size.width/2, windowBounds.size.height/2);
+    if(UIInterfaceOrientationIsPortrait(orientation)){
+        windowBounds = CGRectMake(0, 0, screenBounds.size.height, screenBounds.size.width);
+    }
+    CGPoint center = CGPointMake(screenBounds.size.width/2, screenBounds.size.height/2);
+    
+    self.transform = CGAffineTransformIdentity;
     self.frame = windowBounds;
-    self.center = CGPointMake(windowBounds.size.height/2, windowBounds.size.width/2);
+    self.center = center;
     self.transform = trans;
+
+    imageView.hidden = false;
     imageView.frame = windowBounds;
-    //imageView.transform = trans;
+    
     currentOrientation = orientation;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"externalUpdate" object:self];
 }
