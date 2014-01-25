@@ -21,6 +21,7 @@
 		FA009A38188F336900E115A0 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA009A36188F336900E115A0 /* RootViewController.m */; };
 		FA009A39188F336900E115A0 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA009A37188F336900E115A0 /* RootViewController.xib */; };
 		FA2C17DE18A048C5004380BE /* WDResettableTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2C17DD18A048C5004380BE /* WDResettableTimer.m */; };
+		FA2C17D81892329C004380BE /* TableAutocompletionController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2C17D71892329C004380BE /* TableAutocompletionController.m */; };
 		FA2C17E218A0637F004380BE /* rotate.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2C17E118A0637F004380BE /* rotate.png */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,8 @@
 		FA009A37188F336900E115A0 /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		FA2C17DC18A048C5004380BE /* WDResettableTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDResettableTimer.h; sourceTree = "<group>"; };
 		FA2C17DD18A048C5004380BE /* WDResettableTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDResettableTimer.m; sourceTree = "<group>"; };
+		FA2C17D61892329C004380BE /* TableAutocompletionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableAutocompletionController.h; sourceTree = "<group>"; };
+		FA2C17D71892329C004380BE /* TableAutocompletionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableAutocompletionController.m; sourceTree = "<group>"; };
 		FA2C17E118A0637F004380BE /* rotate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rotate.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +109,8 @@
 				FA009A291887674300E115A0 /* PresWebview.m */,
 				FA2C17DC18A048C5004380BE /* WDResettableTimer.h */,
 				FA2C17DD18A048C5004380BE /* WDResettableTimer.m */,
+				FA2C17D61892329C004380BE /* TableAutocompletionController.h */,
+				FA2C17D71892329C004380BE /* TableAutocompletionController.m */,
 			);
 			path = PresBrowser;
 			sourceTree = "<group>";
@@ -198,6 +203,7 @@
 				2DBB4E5D172381E300149D44 /* AppDelegate.m in Sources */,
 				FA009A271887636400E115A0 /* ExternalWindow.m in Sources */,
 				FA009A38188F336900E115A0 /* RootViewController.m in Sources */,
+				FA2C17D81892329C004380BE /* TableAutocompletionController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
