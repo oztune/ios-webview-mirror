@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "ExternalWindow.h"
 
+static  NSString * const kNotificationUserActivity = @"WDUserActivity";
+
 @interface PresWebView : UIWebView <UIWebViewDelegate>
 
 typedef enum {
@@ -19,7 +21,7 @@ typedef enum {
 @property (nonatomic) CGRect containerFrame;
 @property (nonatomic) CGSize renderSize;
 @property (nonatomic) PresWebViewAspectType currentAspect;
-@property (strong, nonatomic) ExternalWindow* linkedWindow;
+@property (strong, nonatomic) ExternalWindow *linkedWindow;
 
 - (void) relayout;
 - (void)rescaleWebViewContent;

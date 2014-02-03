@@ -17,7 +17,6 @@
 
 @synthesize urlField;
 @synthesize rotateButton;
-@synthesize swapButton;
 @synthesize imageView;
 @synthesize mainWebView;
 @synthesize secondWindow;
@@ -29,6 +28,7 @@
     if (self) {
         imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
         mainWebView = [[PresWebView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        idleTimer = [WDResettableTimer resettableTimerWithTimeInterval:kIdleTimeout target:self selector:@selector(didGoIdle) repeats:true];
     }
     return self;
 }
@@ -46,27 +46,9 @@
 }
 
 - (void) onTick{
-    if(!secondWindow.isActive){
-        if(onExternal){
-            [self setWebOnFirstScreen];
-        }
-        return;
-    }
     UIImage *image = [mainWebView screenshot];
     imageView.image = image;
     secondWindow.imageView.image = image;
-}
-
-- (IBAction) swap{
-    if(!secondWindow.isActive){
-        return;
-    }
-    if(onExternal){
-        [self setWebOnFirstScreen];
-    }else{
-        [self setWebOnSecondScreen];
-    }
-    return;
 }
 
 - (IBAction) rotate{
@@ -76,13 +58,23 @@
 
 - (void) handleDisplayChange{
     if(secondWindow.isActive){
+        [idleTimer start];
         [mainWebView linkWindow: secondWindow];
     }else{
+        [idleTimer stop];
         [mainWebView unlinkWindow];
+        if(onExternal){
+            [self setWebOnFirstScreen];
+        }
     }
 }
 
 - (void) setWebOnFirstScreen{
+    [idleTimer start];
+    if(!onExternal){
+        NSLog(@"Attempted to swap to primary screen while already there");
+        return;
+    }
     [self.containingView addSubview:mainWebView];
     [mainWebView assumeAspect:PresWebViewAspectScaled];
     imageView.hidden = YES;
@@ -91,7 +83,19 @@
 }
 
 - (void) setWebOnSecondScreen{
+
+    [idleTimer stop];
+    if(onExternal){
+        NSLog(@"Attempted to swap to external while already on external");
+        return;
+    }
+    
+    if(!secondWindow.isActive){
+        NSLog(@"Attempted to swap to external while it was inactive");
+        return;
+    }
     imageView.frame = mainWebView.frame;
+    
     [self onTick];
 
     [secondWindow addSubview:mainWebView];
@@ -100,6 +104,16 @@
     secondWindow.imageView.hidden = YES;
     imageView.hidden = NO;
     onExternal = true;
+}
+
+- (void) didGoIdle{
+    NSLog(@"User went idle, trying to go to second screen");
+    [self setWebOnSecondScreen];
+}
+
+- (void) didResumeFromIdle{
+    NSLog(@"User went unidle");
+    [self setWebOnFirstScreen];
 }
 
 
@@ -116,20 +130,25 @@
     imageView.hidden = YES;
     imageView.alpha = 0.5;
     imageView.backgroundColor = [UIColor purpleColor];
+    imageView.userInteractionEnabled = YES;
     
     [mainWebView assumeAspect:PresWebViewAspectScaled];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayChange)  name:@"externalUpdate" object:nil];
+    
+    // Idle timer
+    [[NSNotificationCenter defaultCenter] addObserver:idleTimer selector:@selector(reset) name:kNotificationUserActivity object:nil];
+    
+    // Rendering timer
+    [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(onTick) userInfo:nil repeats:YES];
     
     CGRect externalFrame = CGRectMake(0, 0, 768, 1280);
     
     secondWindow = [[ExternalWindow alloc] initWithFrame:externalFrame];
     [secondWindow checkForInitialScreen];
     [mainWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fireball.lga.appfigures.com/rrd/"]]];
-    
-	// Rendering timer
-	[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(onTick) userInfo:nil repeats:YES];
 	
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -145,6 +164,21 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    if(!onExternal){
+        [super touchesBegan:touches withEvent:event];
+        return;
+    }
+    
+    // catch touches on the imageview that's behind the webview so that
+    // we know when to bring the webview back from the external screen
+    UITouch *touch = [touches anyObject];
+    UIView *touchedView = [touch view];
+    if(touchedView == imageView){
+        [self didResumeFromIdle];
+    }
 }
 
 @end

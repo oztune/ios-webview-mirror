@@ -171,6 +171,9 @@
     //	NSLog(@"4 Did start load");
 }
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUserActivity object:self];
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.
