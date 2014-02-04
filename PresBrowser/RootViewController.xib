@@ -50,13 +50,17 @@
             <constraints>
                 <constraint firstItem="dW0-Ij-Xl2" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="4Vq-nW-G02"/>
                 <constraint firstAttribute="trailing" secondItem="dW0-Ij-Xl2" secondAttribute="trailing" id="4vt-OQ-1td"/>
+                <constraint firstAttribute="bottom" secondItem="dW0-Ij-Xl2" secondAttribute="bottom" id="Jrx-TC-rcQ"/>
                 <constraint firstItem="dW0-Ij-Xl2" firstAttribute="trailing" secondItem="bcI-SA-9Xj" secondAttribute="trailing" constant="7" id="KeN-NW-Wb3"/>
+                <constraint firstItem="dW0-Ij-Xl2" firstAttribute="top" secondItem="mma-gv-UMH" secondAttribute="bottom" constant="8" id="Rwq-h2-0Kl"/>
                 <constraint firstItem="mma-gv-UMH" firstAttribute="top" secondItem="bcI-SA-9Xj" secondAttribute="top" id="ZC6-Br-B9X"/>
                 <constraint firstItem="mma-gv-UMH" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" symbolic="YES" id="h5h-kl-5bz"/>
                 <constraint firstItem="dW0-Ij-Xl2" firstAttribute="top" secondItem="mma-gv-UMH" secondAttribute="bottom" constant="8" symbolic="YES" id="hJE-rq-TNq"/>
+                <constraint firstItem="dW0-Ij-Xl2" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="kTu-It-6aF"/>
                 <constraint firstItem="mma-gv-UMH" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="4" id="nQV-hB-x3c"/>
                 <constraint firstAttribute="bottom" secondItem="dW0-Ij-Xl2" secondAttribute="bottom" id="uC0-aq-qtV"/>
                 <constraint firstItem="bcI-SA-9Xj" firstAttribute="leading" secondItem="mma-gv-UMH" secondAttribute="trailing" constant="8" id="wX2-XT-QHe"/>
+                <constraint firstAttribute="trailing" secondItem="dW0-Ij-Xl2" secondAttribute="trailing" id="zKL-b0-H3l"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
