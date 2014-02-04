@@ -19,7 +19,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mma-gv-UMH">
-                    <rect key="frame" x="4" y="20" width="253" height="30"/>
+                    <rect key="frame" x="4" y="20" width="272" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
@@ -27,13 +27,15 @@
                         <outlet property="delegate" destination="-1" id="kYV-XW-zBG"/>
                     </connections>
                 </textField>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-SA-9Xj">
-                    <rect key="frame" x="265" y="20" width="55" height="30"/>
+                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-SA-9Xj">
+                    <rect key="frame" x="284" y="20" width="29" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="55" id="sdc-5J-BBf"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="29" id="33E-Xn-CRN"/>
+                        <constraint firstAttribute="height" constant="29" id="RfP-zN-m8o"/>
+                        <constraint firstAttribute="width" constant="29" id="sdc-5J-BBf"/>
                     </constraints>
-                    <state key="normal" title="Rotate"/>
+                    <state key="normal" image="rotate.png"/>
                     <connections>
                         <action selector="rotate" destination="-1" eventType="touchUpInside" id="2yD-ns-JHU"/>
                     </connections>
@@ -48,7 +50,7 @@
             <constraints>
                 <constraint firstItem="dW0-Ij-Xl2" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="4Vq-nW-G02"/>
                 <constraint firstAttribute="trailing" secondItem="dW0-Ij-Xl2" secondAttribute="trailing" id="4vt-OQ-1td"/>
-                <constraint firstItem="dW0-Ij-Xl2" firstAttribute="trailing" secondItem="bcI-SA-9Xj" secondAttribute="trailing" id="KeN-NW-Wb3"/>
+                <constraint firstItem="dW0-Ij-Xl2" firstAttribute="trailing" secondItem="bcI-SA-9Xj" secondAttribute="trailing" constant="7" id="KeN-NW-Wb3"/>
                 <constraint firstItem="mma-gv-UMH" firstAttribute="top" secondItem="bcI-SA-9Xj" secondAttribute="top" id="ZC6-Br-B9X"/>
                 <constraint firstItem="mma-gv-UMH" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" symbolic="YES" id="h5h-kl-5bz"/>
                 <constraint firstItem="dW0-Ij-Xl2" firstAttribute="top" secondItem="mma-gv-UMH" secondAttribute="bottom" constant="8" symbolic="YES" id="hJE-rq-TNq"/>
@@ -60,4 +62,7 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="rotate.png" width="64" height="64"/>
+    </resources>
 </document>
