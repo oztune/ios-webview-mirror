@@ -134,7 +134,7 @@
     
     [mainWebView assumeAspect:PresWebViewAspectScaled];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayChange)  name:@"externalUpdate" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDisplayChange)  name:kNotificationExternalDisplayChange object:nil];
     
     // Idle timer
     [[NSNotificationCenter defaultCenter] addObserver:idleTimer selector:@selector(reset) name:kNotificationUserActivity object:nil];

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+static NSString * const kNotificationExternalDisplayChange = @"WDNotificationExternalDisplayChange";
 @interface ExternalWindow : UIWindow{
     UIInterfaceOrientation currentOrientation;
 }

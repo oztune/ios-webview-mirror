@@ -46,7 +46,7 @@
     // Finish it
 	self.isActive = YES;
     self.hidden = NO;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"externalUpdate" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationExternalDisplayChange object:self];
 }
 
 - (void)rotate:(UIInterfaceOrientation)orientation animate:(BOOL)animate{
@@ -71,7 +71,7 @@
     imageView.frame = windowBounds;
     
     currentOrientation = orientation;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"externalUpdate" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationExternalDisplayChange object:self];
 }
 
 - (float) transformAngle: (UIInterfaceOrientation) from to: (UIInterfaceOrientation) to{
@@ -137,7 +137,7 @@
     self.isActive = NO;
     self.screen = nil;
     self.hidden = YES;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"externalUpdate" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationExternalDisplayChange object:self];
 }
 
 /*
