@@ -57,8 +57,10 @@
     if (self.superview == nil){
         return;
     }
+    
     [self updateContainer];
-
+    CGSize priorSize = self.frame.size;
+    CGPoint priorScrollOffset = self.scrollView.contentOffset;
     if(self.currentAspect == PresWebViewAspectScaled){
         CGRect frame = self.frame;
         CGSize augmentedFrameSize = [self calculateScaleOf:self.renderSize withMax:containerFrame.size];
@@ -69,6 +71,11 @@
         self.frame = CGRectMake(0, 0, self.renderSize.width, self.renderSize.height);
     }
     [self rescaleWebViewContent];
+    if(!CGSizeEqualToSize(priorSize, self.frame.size) && priorSize.height != 0){
+        float factor = self.frame.size.height / priorSize.height;
+        CGPoint scrollOffset = CGPointMake(priorScrollOffset.x, priorScrollOffset.y * factor);
+        [self.scrollView setContentOffset:scrollOffset];
+    }
 }
 
 -(void) updateContainer{
