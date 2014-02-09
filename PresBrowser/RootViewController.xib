@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RootViewController">
             <connections>
+                <outlet property="autocompletionController" destination="9ob-Wj-S2z" id="t9D-8w-pNA"/>
                 <outlet property="containingView" destination="dW0-Ij-Xl2" id="xfr-U4-s1b"/>
                 <outlet property="rotateButton" destination="bcI-SA-9Xj" id="ylT-NT-y5V"/>
                 <outlet property="urlField" destination="mma-gv-UMH" id="zre-aI-c1z"/>
@@ -18,15 +19,16 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mma-gv-UMH">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="mma-gv-UMH">
                     <rect key="frame" x="4" y="20" width="272" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" keyboardType="URL" returnKeyType="go"/>
+                    <textInputTraits key="textInputTraits" keyboardType="URL" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
                     <connections>
-                        <action selector="beginCompletion" destination="9ob-Wj-S2z" eventType="editingDidBegin" id="Sfc-RT-pMM"/>
-                        <action selector="complete" destination="9ob-Wj-S2z" eventType="editingChanged" id="f1G-fJ-dCS"/>
-                        <action selector="endCompletion" destination="9ob-Wj-S2z" eventType="editingDidEnd" id="P6u-ih-Ybi"/>
+                        <action selector="beginCompletion" destination="9ob-Wj-S2z" eventType="editingDidBegin" id="1Ky-vk-Eif"/>
+                        <action selector="complete" destination="9ob-Wj-S2z" eventType="editingChanged" id="B8v-xd-Zx5"/>
+                        <action selector="complete" destination="9ob-Wj-S2z" eventType="valueChanged" id="bea-mK-lJ7"/>
+                        <action selector="endCompletion" destination="9ob-Wj-S2z" eventType="editingDidEnd" id="RWy-e5-7Xb"/>
                         <outlet property="delegate" destination="-1" id="kYV-XW-zBG"/>
                     </connections>
                 </textField>
@@ -68,7 +70,7 @@
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
-        <tableViewController id="9ob-Wj-S2z" customClass="TableAutocompletionController">
+        <tableViewController id="9ob-Wj-S2z" customClass="WDTableAutocompletionController">
             <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="SvM-tB-4C0">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

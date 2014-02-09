@@ -7,6 +7,7 @@
 //
 
 #import "ExternalWindow.h"
+#import "WDSettings.h"
 
 @implementation ExternalWindow
 
@@ -24,7 +25,7 @@
         [center addObserver:self selector:@selector(handleScreenDidDisconnectNotification:)
                        name:UIScreenDidDisconnectNotification object:nil];
         
-        currentOrientation = UIInterfaceOrientationLandscapeRight;
+        currentOrientation = [[WDSettings instance] orientation];
         
         // Create an image inside the window so that we can draw
         // the web view into it.

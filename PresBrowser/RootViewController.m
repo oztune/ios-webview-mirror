@@ -33,16 +33,18 @@
     return self;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField*)textField
+- (BOOL)textFieldShouldReturn:(UITextField *)textfield {
+    [textfield resignFirstResponder];
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField*)textField
 {
-    [textField resignFirstResponder];
     NSString *text = textField.text;
     if(![text hasPrefix: @"http"]){
         text = [NSString stringWithFormat:@"http://%@", text];
     }
 	[mainWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:text]]];
-	
-    return NO;
 }
 
 - (void) onTick{

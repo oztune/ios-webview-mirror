@@ -6,21 +6,63 @@
 //  Copyright (c) 2014 Oz Michaeli. All rights reserved.
 //
 
-#import "TableAutocompletionController.h"
+#import "WDTableAutocompletionController.h"
+#import "WDSettings.h"
 
-@interface TableAutocompletionController ()
-
+@interface WDTableAutocompletionController ()
+@property (strong, nonatomic) NSArray *cachedHistory;
 @end
 
-@implementation TableAutocompletionController
+@implementation WDTableAutocompletionController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+@synthesize cachedHistory;
+
+- (id)initWithCoder:(NSCoder *)aDecoder{
+    self = [super initWithCoder:aDecoder];
+    if(self){
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWasShown:)
+                                                     name:UIKeyboardDidShowNotification
+                                                   object:nil];
+        [self.tableView registerClass: [UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     }
     return self;
+}
+
+- (void)complete{
+    self.cachedHistory = [NSMutableArray arrayWithArray:[[WDSettings instance] urlHistory]];
+    NSString *filter = self.boundField.text;
+    if([filter length] != 0){
+        for(int i = 0; i < [cachedHistory count]; i++){
+            NSString *url = [self.cachedHistory objectAtIndex:i];
+            if([url rangeOfString:filter options:NSCaseInsensitiveSearch].location == NSNotFound ){
+                [(NSMutableArray *)self.cachedHistory removeObjectAtIndex:i];
+                i--;
+            }
+        }
+    }
+    [self.tableView reloadData];
+}
+
+-(void)beginCompletion{
+    self.view.hidden = YES;
+    [self.boundField.superview addSubview:self.view];
+}
+
+-(void)endCompletion{
+    [[WDSettings instance]pushUrl:self.boundField.text];
+    [self.view removeFromSuperview];
+    self.view.hidden = YES;
+}
+
+- (void)keyboardWasShown:(NSNotification *)notification{
+    CGRect keyboard = [[[notification userInfo]
+                     objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    float start = self.boundField.frame.origin.y + self.boundField.frame.size.height + 10;
+    self.view.frame = CGRectMake(0, start, keyboard.size.width,keyboard.origin.y - start);
+    self.cachedHistory = [[WDSettings instance] urlHistory];
+    [self.tableView reloadData];
+    self.view.hidden = NO;
 }
 
 - (void)viewDidLoad
@@ -28,7 +70,8 @@
     [super viewDidLoad];
 
     // Uncomment the following line to preserve selection between presentations.
-     self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = NO;
+    [self.view setTranslatesAutoresizingMaskIntoConstraints:YES];
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -44,26 +87,40 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [cachedHistory count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    if(cell == nil){
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
+    }
+
+    cell.textLabel.text = [self urlFor: indexPath];
     
     // Configure the cell...
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSString* url = [self urlFor:indexPath];
+    self.boundField.text = url;
+    [self.boundField endEditing:NO];
+    //[self.boundField resignFirstResponder];
+}
+
+- (NSString*) urlFor: (NSIndexPath *)indexPath{
+    return [cachedHistory objectAtIndex:[cachedHistory count] - indexPath.row - 1];
 }
 
 /*

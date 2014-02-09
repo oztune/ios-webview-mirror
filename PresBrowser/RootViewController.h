@@ -10,6 +10,7 @@
 #import "ExternalWindow.h"
 #import "PresWebview.h"
 #import "WDResettableTimer.h"
+#import "WDTableAutocompletionController.h"
 
 static const NSTimeInterval kIdleTimeout = 10.0;
 
@@ -27,5 +28,6 @@ static const NSTimeInterval kIdleTimeout = 10.0;
 @property (strong, nonatomic) UIView IBOutlet *containingView;
 @property (strong, nonatomic) UIButton IBOutlet *rotateButton;
 @property (strong, nonatomic) UITextField IBOutlet *urlField;
+@property (strong, nonatomic) WDTableAutocompletionController IBOutlet *autocompletionController;
 
 @end

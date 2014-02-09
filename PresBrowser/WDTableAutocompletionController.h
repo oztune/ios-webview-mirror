@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TableAutocompletionController : UITableViewController
-
+@interface WDTableAutocompletionController : UITableViewController
 @property (strong, nonatomic) IBOutlet UITextField *boundField;
 - (IBAction)beginCompletion;
 - (IBAction)endCompletion;
 - (IBAction)complete;
+
+- (void)keyboardWasShown:(NSNotification *)notification;
 @end
