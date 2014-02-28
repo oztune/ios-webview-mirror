@@ -9,17 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UIWebViewDelegate, UITextFieldDelegate>
-{
-	UIWindow *secondWindow;
-	UIWebView *mainWebView;
-	UIImageView *imageView;
-}
-
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) UIWindow *secondWindow;
-
-- (void)handleScreenDidConnectNotification:(NSNotification*)aNotification;
-- (void)handleScreenDidDisconnectNotification:(NSNotification*)aNotification;
-- (void) onScreen: (UIScreen *)screen;
-
 @end
