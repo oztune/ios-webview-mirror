@@ -62,11 +62,7 @@
     CGSize priorSize = self.frame.size;
     CGPoint priorScrollOffset = self.scrollView.contentOffset;
     if(self.currentAspect == PresWebViewAspectScaled){
-        CGRect frame = self.frame;
-        CGSize augmentedFrameSize = [self calculateScaleOf:self.renderSize withMax:containerFrame.size];
-        frame.size = augmentedFrameSize;
-        frame.origin = [self center:augmentedFrameSize in:containerFrame];
-        self.frame = frame;
+        self.frame = [self frameInContainer: containerFrame];
     }else{
         self.frame = CGRectMake(0, 0, self.renderSize.width, self.renderSize.height);
     }
@@ -91,6 +87,15 @@
 
 - (void)didMoveToSuperview{
     [self relayout];
+}
+
+
+-(CGRect) frameInContainer: (CGRect) container{
+    CGRect frame = CGRectZero;
+    CGSize augmentedFrameSize = [self calculateScaleOf:self.renderSize withMax:container.size];
+    frame.size = augmentedFrameSize;
+    frame.origin = [self center:augmentedFrameSize in:container];
+    return frame;
 }
 
 - (CGSize) calculateScaleOf: (CGSize)other withMax: (CGSize) maxSize{

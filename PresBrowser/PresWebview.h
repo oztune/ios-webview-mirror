@@ -29,4 +29,6 @@ typedef enum {
 - (void) assumeAspect: (PresWebViewAspectType) aspect;
 - (void) linkWindow:(ExternalWindow*) window;
 - (void) unlinkWindow;
+-(CGRect) frameInContainer: (CGRect) container;
+
 @end

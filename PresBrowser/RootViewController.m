@@ -55,6 +55,7 @@
 
 - (IBAction) rotate{
     [secondWindow rotate:[secondWindow successor:secondWindow.orientation] animate:YES];
+    imageView.frame = [mainWebView frameInContainer: containingView.bounds];
     return;
 }
 
@@ -96,13 +97,11 @@
         NSLog(@"Attempted to swap to external while it was inactive");
         return;
     }
-    imageView.frame = mainWebView.frame;
     
-    [self onTick];
-
+    imageView.frame = mainWebView.frame;
     [secondWindow addSubview:mainWebView];
     [mainWebView assumeAspect:PresWebViewAspectNative];
-
+    [self onTick];
     secondWindow.imageView.hidden = YES;
     imageView.hidden = NO;
     onExternal = true;
